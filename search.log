@@ -1,32 +1,7 @@
-INFO:root:2024-07-22 20:25:19.251559 Entered the Initialization module
-INFO:root:2024-07-22 20:25:19.251797 Existing the Initialization module
-INFO:root:2024-07-22 20:25:19.251849 Entered the url_generator module
-INFO:root:2024-07-22 20:25:19.251901 executing the query  -react -angular 'Software engineer' site:greenhouse.io
-INFO:root:2024-07-22 20:25:24.253467 Entered the language_adjustments module
-INFO:root:2024-07-22 20:25:24.253649 Existing the language_adjustments module
-INFO:root:2024-07-22 20:25:24.253698 Leaving the url_generator module with urls ['https://boards.greenhouse.io/foundation/jobs/4083425008?&source=web3.career&gh_src=web3.career', 'https://boards.greenhouse.io/cityoffortworth', 'https://boards.greenhouse.io/singlestore/jobs/6125582']
-INFO:root:2024-07-22 20:25:24.253752 Entered the Compute Module
-INFO:root:2024-07-22 20:25:24.255523 Entered the Url List loop for url https://boards.greenhouse.io/foundation/jobs/4083425008?&source=web3.career&gh_src=web3.career
-INFO:root:2024-07-22 20:25:24.804571 Entered the url extract for other urls Module
-INFO:root:2024-07-22 20:25:24.839237 Existing the location extract for other urls Module with considerations {'location': '\n      United States - Remote\n    '}
-INFO:root:2024-07-22 20:25:24.841148 Entered the Url List loop for url https://boards.greenhouse.io/cityoffortworth
-INFO:root:2024-07-22 20:25:25.432911 Entered the redirect url extract Module with url https://boards.greenhouse.io/cityoffortworth
-INFO:root:2024-07-22 20:25:25.605631 Existing the redirect url extract Module with url https://boards.greenhouse.io/cityoffortworth
-INFO:root:2024-07-22 20:25:25.913021 Entered the Url List loop for url https://boards.greenhouse.io/singlestore/jobs/6125582
-INFO:root:2024-07-22 20:25:26.375780 Entered the url extract for other urls Module
-INFO:root:2024-07-22 20:25:26.418399 Existing the location extract for other urls Module with considerations {'location': '\n      Remote, United States\n    '}
-INFO:root:2024-07-22 20:25:26.419325 Existing the compute Module
-INFO:root:2024-07-22 20:25:26.419613 Entered the filtering Module
-INFO:root:2024-07-22 20:25:26.420385 Entering the country check Module
-INFO:root:2024-07-22 20:25:26.420443 Entered the get country Module with place united states - remote
-INFO:root:2024-07-22 20:25:26.807433 Existing the get country Module with country {'hamlet': 'Remote', 'county': 'Coos County', 'state': 'Oregon', 'ISO3166-2-lvl4': 'US-OR', 'country': 'United States', 'country_code': 'us'}
-INFO:root:2024-07-22 20:25:26.807985 Entered the get country Module with place united states - remote
-INFO:root:2024-07-22 20:25:27.300380 Existing the get country Module with country {'hamlet': 'Remote', 'county': 'Coos County', 'state': 'Oregon', 'ISO3166-2-lvl4': 'US-OR', 'country': 'United States', 'country_code': 'us'}
-INFO:root:2024-07-22 20:25:27.301220 Existing the country check Module with country found and valid
-INFO:root:2024-07-22 20:25:27.301377 Entering the country check Module
-INFO:root:2024-07-22 20:25:27.301479 Entered the get country Module with place remote, united states
-INFO:root:2024-07-22 20:25:27.807915 Existing the get country Module with country {'hamlet': 'Remote', 'county': 'Coos County', 'state': 'Oregon', 'ISO3166-2-lvl4': 'US-OR', 'country': 'United States', 'country_code': 'us'}
-INFO:root:2024-07-22 20:25:27.808736 Entered the get country Module with place united states
-INFO:root:2024-07-22 20:25:28.288332 Existing the get country Module with country {'country': 'United States', 'country_code': 'us'}
-INFO:root:2024-07-22 20:25:28.289207 Existing the country check Module with country found and valid
-INFO:root:2024-07-22 20:25:28.308790 Existing the filtering Module
+INFO:root:2024-07-22 21:25:30.818883 Entered the Initialization module
+INFO:root:2024-07-22 21:25:30.819079 Existing the Initialization module
+INFO:root:2024-07-22 21:25:30.819133 Entered the url_generator module
+INFO:root:2024-07-22 21:25:30.819184 executing the query  -react -angular 'Software engineer' site:dover.com
+INFO:root:2024-07-22 21:25:33.904587 Entered the language_adjustments module
+INFO:root:2024-07-22 21:25:33.905194 Existing the language_adjustments module
+INFO:root:2024-07-22 21:25:33.905287 Leaving the url_generator module with urls []

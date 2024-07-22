@@ -1,0 +1,36 @@
+INFO:root:2024-07-22 18:01:23.545508 Entered the Initialization module
+INFO:root:2024-07-22 18:01:23.545642 Existing the Initialization module
+INFO:root:2024-07-22 18:01:23.545682 Entered the Compute Module
+INFO:root:2024-07-22 18:01:24.305158 Entered the url extract for other urls Module
+INFO:root:2024-07-22 18:01:24.337178 Entered the String Search Module for ['Top Secret', 'Top Secret/Sensitive Compartmented Information', 'TS/SCI', 'Polygraph']
+INFO:root:2024-07-22 18:01:24.353111 Search for ['Top Secret', 'Top Secret/Sensitive Compartmented Information', 'TS/SCI', 'Polygraph'] is not found
+INFO:root:2024-07-22 18:01:24.353178 Entered the String Search Module for ['not offering new sponsorships', 'no sponsorship', 'not offering sponsorships', 'do not sponsor', 'No visa sponsorship']
+INFO:root:2024-07-22 18:01:24.366990 Search for ['not offering new sponsorships', 'no sponsorship', 'not offering sponsorships', 'do not sponsor', 'No visa sponsorship'] is not found
+INFO:root:2024-07-22 18:01:24.369896 Existing the location extract for other urls Module with considerations {'clearance': False, 'sponsorship': False, 'location': '\n      Remote\n    '}
+INFO:root:2024-07-22 18:01:24.372475 Existing the compute Module
+INFO:root:2024-07-22 18:01:24.372671 Entered the filtering Module
+INFO:root:2024-07-22 18:01:24.378514 Entering the country check Module
+INFO:root:2024-07-22 18:01:24.378579 Entered the get country Module with place remote
+INFO:root:2024-07-22 18:01:24.819723 Existing the get country Module with country {'peak': 'Remote Peak', 'city': 'Area F (McConnell Creek/Hatzic Prairie)', 'county': 'Fraser Valley Regional District', 'state': 'British Columbia', 'ISO3166-2-lvl4': 'CA-BC', 'country': 'Canada', 'country_code': 'ca'}
+INFO:root:2024-07-22 18:01:24.820517 Entered the get country Module with place remote
+INFO:root:2024-07-22 18:01:25.348121 Existing the get country Module with country {'peak': 'Remote Peak', 'city': 'Area F (McConnell Creek/Hatzic Prairie)', 'county': 'Fraser Valley Regional District', 'state': 'British Columbia', 'ISO3166-2-lvl4': 'CA-BC', 'country': 'Canada', 'country_code': 'ca'}
+INFO:root:2024-07-22 18:01:25.348377 Existing the country check Module with country not found but remote place
+INFO:root:2024-07-22 18:01:25.358435 Existing the filtering Module
+INFO:root:2024-07-22 18:02:27.716463 Entered the Initialization module
+INFO:root:2024-07-22 18:02:27.717421 Existing the Initialization module
+INFO:root:2024-07-22 18:02:27.717479 Entered the Compute Module
+INFO:root:2024-07-22 18:02:28.175985 Entered the url extract for other urls Module
+INFO:root:2024-07-22 18:02:28.204987 Entered the String Search Module for ['Top Secret', 'Top Secret/Sensitive Compartmented Information', 'TS/SCI', 'Polygraph']
+INFO:root:2024-07-22 18:02:28.220607 Search for ['Top Secret', 'Top Secret/Sensitive Compartmented Information', 'TS/SCI', 'Polygraph'] is not found
+INFO:root:2024-07-22 18:02:28.220710 Entered the String Search Module for ['not offering new sponsorships', 'no sponsorship', 'not offering sponsorships', 'do not sponsor', 'No visa sponsorship']
+INFO:root:2024-07-22 18:02:28.234593 Search for ['not offering new sponsorships', 'no sponsorship', 'not offering sponsorships', 'do not sponsor', 'No visa sponsorship'] is not found
+INFO:root:2024-07-22 18:02:28.234774 Existing the location extract for other urls Module with considerations {'clearance': False, 'sponsorship': False, 'location': '\n      Remote\n    '}
+INFO:root:2024-07-22 18:02:28.235415 Existing the compute Module
+INFO:root:2024-07-22 18:02:28.235629 Entered the filtering Module
+INFO:root:2024-07-22 18:02:28.239767 Entering the country check Module
+INFO:root:2024-07-22 18:02:28.239825 Entered the get country Module with place remote
+INFO:root:2024-07-22 18:02:28.657458 Existing the get country Module with country {'peak': 'Remote Peak', 'city': 'Area F (McConnell Creek/Hatzic Prairie)', 'county': 'Fraser Valley Regional District', 'state': 'British Columbia', 'ISO3166-2-lvl4': 'CA-BC', 'country': 'Canada', 'country_code': 'ca'}
+INFO:root:2024-07-22 18:02:28.658725 Entered the get country Module with place remote
+INFO:root:2024-07-22 18:02:29.184286 Existing the get country Module with country {'peak': 'Remote Peak', 'city': 'Area F (McConnell Creek/Hatzic Prairie)', 'county': 'Fraser Valley Regional District', 'state': 'British Columbia', 'ISO3166-2-lvl4': 'CA-BC', 'country': 'Canada', 'country_code': 'ca'}
+INFO:root:2024-07-22 18:02:29.185155 Existing the country check Module with country not found but remote place
+INFO:root:2024-07-22 18:02:29.201473 Existing the filtering Module
