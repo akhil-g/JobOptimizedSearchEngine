@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Job Optimized Search Engine</title>
+    <link rel="icon" href="/myapp/favicon.ico">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-check-input {
+            width: 1em;
+            /* Adjust the size of the checkbox */
+            height: 1em;
+            /* Adjust the size of the checkbox */
+        }
+
+        .checkbox-group-horizontal .form-check {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        .checkbox-group-horizontal .form-check-label {
+            margin-left: 0.5em;
+        }
+
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            /* Could be more or less, depending on screen size */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .loading-indicator {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Job Optimized Search Engine</h1>
+        <form id="job-search-form" action="/" method="post">
+            {% csrf_token %}
+            {% load form_filters %}
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label for="id_role">{{ form.role.label }}</label>
+                    <div class="form-check form-check-inline">{{ form.role|add_class:"form-control" }}</div>
+                    <small class="form-text text-muted">{{ form.role.help_text }}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_location">{{ form.location.label }}</label>
+                    <div class="form-check form-check-inline">{{ form.location|add_class:"form-control" }}</div>
+                    <small class="form-text text-muted">{{ form.location.help_text}}</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label for="id_keywords">{{ form.keywords.label }}</label>
+                    <div class="form-check form-check-inline">{{ form.keywords|add_class:"form-control" }}</div>
+                    <small class="form-text text-muted">{{ form.keywords.help_text }}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_exclusion">{{ form.exclusion.label }}</label>
+                    <div class="form-check form-check-inline">{{ form.exclusion|add_class:"form-control" }}</div>
+                    <small class="form-text text-muted">{{ form.exclusion.help_text }}</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label for="id_no_of_hits">{{ form.no_of_hits.label }}</label>
+                    <div class="form-check form-check-inline">{{ form.no_of_hits}}</div>
+                    <small class="form-text text-muted">{{ form.no_of_hits.help_text }}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_time_filter">{{ form.time_filter.label }}</label>
+                    <div class="form-check form-check-inline">{{ form.time_filter}}</div>
+                    <small class="form-text text-muted">{{ form.time_filter.help_text }}</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label for="id_clearance">{{ form.clearance.label }}</label>
+                    <div class="form-check form-check-inline">{{ form.clearance }}</div>
+                    <small class="form-text text-muted">{{ form.clearance.help_text }}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_sponsorship">{{ form.sponsorship.label }}</label>
+                    <div class="form-check form-check-inline">{{ form.sponsorship }}</div>
+                    <small class="form-text text-muted">{{ form.sponsorship.help_text }}</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_search_sites">{{ form.search_sites.label }}</label>
+                <div class="checkbox-group-horizontal">
+                    {% for checkbox in form.search_sites %}
+                    <div class="form-check form-check-inline">
+                        {{ checkbox }}
+                        <label class="form-check-label" for="{{ checkbox.id_for_label }}"></label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <small class="form-text text-muted">{{ form.search_sites.help_text }}</small>
+            </div>
+            <div class="form-group">
+                <label for="id_filtering">{{ form.filtering.label }}</label>
+                <div class="form-check form-check-inline">{{ form.filtering}}</div>
+                <small class="form-text text-muted">{{ form.filtering.help_text }}</small>
+            </div>
+            <button id="submit-button" type="submit" class="btn btn-primary btn-block">Submit</button>
+            <div class="loading-indicator text-center mt-3">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <p>Loading...</p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div id="statusModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="statusContent">Processing...</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var form = $('#job-search-form');
+            var loadingIndicator = $('.loading-indicator');
+            var modal = $('#statusModal');
+            var modalContent = $('#statusContent');
+
+            form.on('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Show the loading indicator
+                loadingIndicator.show();
+
+                // Submit the form using AJAX
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        // Hide the loading indicator
+                        loadingIndicator.hide();
+
+                        // Check if the request was successful
+                        if (response.status === 'success') {
+                            // Update modal content with download URL
+                            modalContent.html(`Processing complete. <a href="${response.download_url}" target="_blank">Download file</a>`);
+                        } else {
+                            // Update modal content with error message
+                            modalContent.text(response.message);
+                        }
+
+                        // Show the modal
+                        modal.show();
+                    },
+                    error: function () {
+                        // Hide the loading indicator
+                        loadingIndicator.hide();
+
+                        // Update modal content with error message
+                        modalContent.text('An error occurred while processing your request.');
+
+                        // Show the modal
+                        modal.show();
+                    }
+                });
+            });
+
+            // Close the modal when the close button is clicked
+            $('.close').on('click', function () {
+                modal.hide();
+            });
+        });
+    </script>
+</body>
+
+</html>
