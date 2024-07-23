@@ -6,7 +6,6 @@ import os
 import json
 import datetime
 import pandas as pd
-import openpyxl
 
 
 def get_name(request):

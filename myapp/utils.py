@@ -7,7 +7,6 @@ import logging
 import re
 import json
 import urllib
-import openpyxl
 logging.basicConfig(filename="search.log", level=logging.INFO)
 pd.options.mode.chained_assignment = None  # default='warn'
 
