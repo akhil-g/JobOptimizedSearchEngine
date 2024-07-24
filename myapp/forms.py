@@ -61,7 +61,8 @@ class SearchForm(forms.Form):
         label='Search Sites',
         choices=[('site:greenhouse.io', 'greenhouse.io'), ('site:lever.co', 'lever.co'), ('site:dover.com', 'dover.com'), ('site:jobs.*', 'jobs.*'), ('site:careers.*', 'careers.*'), ('site:oraclecloud.com', 'oraclecloud.com'),
                  ('site:myworkdayjobs.com', 'myworkdayjobs.com'), ('site:icims.com', 'icims.com'), ('site:notion.site', 'notion.site')],
-        widget=forms.CheckboxSelectMultiple()
+        widget=forms.CheckboxSelectMultiple(),
+        required=False
     )
     filtering = forms.ChoiceField(
         label='Auto filter',

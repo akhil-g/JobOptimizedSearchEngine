@@ -50,6 +50,8 @@ def initializations(data):
                       == "True" and i != "filtering"]
     if data['location']:
         considerations.append('location')
+    if len(data['search_sites']) == 0:
+        data['search_sites'] = search_sites
     logging.info(
         f'{datetime.datetime.now()} Existing the Initialization module')
     return data, considerations
