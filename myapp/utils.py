@@ -327,6 +327,26 @@ def microsoft_extract(url, considerations):
             return con
 
 
+def icims_extract(url, considerations):
+    con = {}
+    new_url = url+"?in_iframe=1"
+    response = requests.get(new_url)
+    html_content = response.text
+    soup = BeautifulSoup(html_content, "html.parser")
+    content = soup.find("script", type="application/ld+json")
+    location = None
+    if content is not None and location is None:
+        json_data = json.loads(content.text, strict=False)
+        if "jobLocation" in json_data:
+            location = extract_location(json_data)
+    for i in considerations:
+        if i == 'location':
+            con[i] = location
+        else:
+            con[i] = string_search(response, globals()[i])
+    return con
+
+
 def normalize_string(input_string):
     return input_string.strip().lower()
 
@@ -434,6 +454,9 @@ def compute(url_list, considerations):
             elif "microsoft" in url:
                 # print("microsoft", url)
                 con = microsoft_extract(url, considerations)
+            elif "icims" in url:
+                # print("icims", url)
+                con = icims_extract(url, considerations)
             else:
                 # print("other", url)
                 con = url_extract(response, considerations)
