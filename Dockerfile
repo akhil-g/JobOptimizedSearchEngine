@@ -1,19 +1,19 @@
 # Use the official Alpine image as a base
+#FROM python:3.10
 FROM alpine:3.16
 
 # Install necessary packages
-RUN apk update && apk add --no-cache \
+#RUN apk update && apk add --no-cache \
+RUN apk add --no-cache \
     python3 \
     py3-pip \
-    git \
-    bash \
-    vim
+    git 
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 
 # Upgrade pip and setuptools
-#RUN pip3 install --no-cache --upgrade pip setuptools
+RUN pip3 install --no-cache --upgrade pip setuptools
 
 WORKDIR /app
 
