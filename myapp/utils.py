@@ -7,6 +7,7 @@ import logging
 import re
 import json
 import urllib
+from requests.exceptions import ChunkedEncodingError
 logging.basicConfig(filename="search.log", level=logging.INFO)
 pd.options.mode.chained_assignment = None  # default='warn'
 
@@ -436,7 +437,14 @@ def compute(url_list, considerations):
     for url in url_list:
         logging.info(
             f'{datetime.datetime.now()} Entered the Url List loop for url {url}')
-        response = requests.get(url)
+        response = requests.get(url, stream=True)
+        try:
+            for data in response.iter_content(chunk_size=1024):
+                continue
+        except ChunkedEncodingError as ex:
+            # print(f"Invalid chunk encoding {str(ex)}")
+            logging.info(
+                f'{datetime.datetime.now()} Invalid chunk encoding {str(ex)} for url {url}')
         redirect_url = response.url
         original_url = url
         if redirect_url != url:
