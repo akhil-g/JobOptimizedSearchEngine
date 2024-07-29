@@ -1,5 +1,4 @@
 # Use the official Alpine image as a base
-#FROM python:3.10
 FROM alpine:3.16
 
 # Install necessary packages
@@ -19,9 +18,6 @@ WORKDIR /app
 
 # Clone the repository
 RUN git clone https://github.com/akhil-g/JobOptimizedSearchEngine.git .
-
-# Create a directory for the application
-#WORKDIR /app/JobOptimizedSearchEngine
 
 RUN ls -la
 

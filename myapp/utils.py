@@ -306,7 +306,7 @@ def microsoft_extract(url, considerations):
                     else:
                         con[i] = string_search(response, globals()[i])
                 logging.info(
-                    f'{datetime.datetime.now()} Existing the oracle extract Module with considerations {con}')
+                    f'{datetime.datetime.now()} Existing the Microsoft extract Module with considerations {con}')
                 return con
             else:
                 for i in considerations:
@@ -315,7 +315,7 @@ def microsoft_extract(url, considerations):
                     else:
                         con[i] = False
                 logging.info(
-                    f'{datetime.datetime.now()} Existing the oracle extract Module with considerations {con}')
+                    f'{datetime.datetime.now()} Existing the Microsoft extract Module with considerations {con}')
                 return con
         else:
             for i in considerations:
@@ -324,11 +324,13 @@ def microsoft_extract(url, considerations):
                 else:
                     con[i] = False
             logging.info(
-                f'{datetime.datetime.now()} Existing the oracle extract Module with considerations {con}')
+                f'{datetime.datetime.now()} Existing the Microsoft extract Module with considerations {con}')
             return con
 
 
 def icims_extract(url, considerations):
+    logging.info(
+        f'{datetime.datetime.now()} Entering the icims extract Module with url {url}')
     con = {}
     new_url = url+"?in_iframe=1"
     response = requests.get(new_url)
@@ -345,6 +347,8 @@ def icims_extract(url, considerations):
             con[i] = location
         else:
             con[i] = string_search(response, globals()[i])
+    logging.info(
+        f'{datetime.datetime.now()} Existing the icims extract Module with considerations {con}')
     return con
 
 
@@ -479,6 +483,7 @@ def compute(url_list, considerations):
 def filterings(final_df, considerations, location, filtering):
     logging.info(f'{datetime.datetime.now()} Entered the filtering Module')
     filtered_df = final_df.copy()
+    filtered_df['location'] = filtered_df['location'].str.strip()
     if filtering:
         for j in considerations:
             if j == 'location':
@@ -494,7 +499,8 @@ def filterings(final_df, considerations, location, filtering):
         filtered_df.loc[filtered_df['comments'] ==
                         True, 'comments'] = "location matched"
         for j in considerations:
-            filtered_df = filtered_df.drop(columns=[f'{j}'])
+            if j != "location":
+                filtered_df = filtered_df.drop(columns=[f'{j}'])
     filtered_df['Role'] = " "
     filtered_df['Status'] = " "
     filtered_df['username/email'] = " "
