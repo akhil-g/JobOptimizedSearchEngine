@@ -15,7 +15,7 @@ pd.options.mode.chained_assignment = None  # default='warn'
 search_sites = ["site:greenhouse.io", "site:lever.co", "site:dover.com", "site:jobs.* ", "site:careers.*", "site:oraclecloud.com",
                 "site:myworkdayjobs.com", "site:icims.com", "site:notion.site"]
 clearance = ["Top Secret",
-             "Top Secret/Sensitive Compartmented Information", "TS/SCI", "Polygraph", "US Secret security clearance"]
+             "Top Secret/Sensitive Compartmented Information", "TS/SCI", "Polygraph", "US Secret security clearance", "Security Compliance"]
 sponsorship = ["not offering new sponsorships", "no sponsorship",
                "not offering sponsorships", "do not sponsor", "No visa sponsorship"]
 time = {"Past hour": "qdr:h",	"Past day": "qdr:d",
