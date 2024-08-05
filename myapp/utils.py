@@ -357,6 +357,8 @@ def icims_extract(url, considerations):
 
 
 def normalize_string(input_string):
+    logging.info(
+        f'{datetime.datetime.now()} Entering the normalize string Module with string {input_string}')
     if input_string is not None:
         return input_string.strip().lower()
     else:
@@ -399,10 +401,11 @@ def is_place_in_country(place_string, country_string):
     normalized_country = normalize_string(country_string)
     if ',' in place_string:
         norm_country = normalize_string(place_string.split(',')[-1])
+        pl_country = get_country_from_place_nominatim(norm_country)
     else:
         norm_country = None
+        pl_country = None
     place_country = get_country_from_place_nominatim(normalized_place)
-    pl_country = get_country_from_place_nominatim(norm_country)
     if "remote" in normalized_place:
         if normalized_country in normalized_place:
             logging.info(
@@ -421,7 +424,7 @@ def is_place_in_country(place_string, country_string):
         logging.info(
             f'{datetime.datetime.now()} Existing the country check Module with country found and valid')
         return normalized_place_country == normalized_country
-    elif pl_country:
+    elif pl_country is not None:
         normalized_place_country = normalize_string(pl_country)
         logging.info(
             f'{datetime.datetime.now()} Existing the country check Module with country found and valid')
