@@ -356,6 +356,34 @@ def icims_extract(url, considerations):
     return con
 
 
+def apple_extract(response, considerations):
+    logging.info(
+        f'{datetime.datetime.now()} Entering the Apple extract Module')
+    con = {}
+    html_content = response.text
+    soup = BeautifulSoup(html_content, "html.parser")
+    cj = soup.find("script", type='text/javascript')
+    ct = cj.get_text(strip=True)
+    match = re.search(r'window.APP_STATE\s*=\s*(\{.*?\});', ct, re.DOTALL)
+    if match:
+        json_content = match.group(1)
+        data_dict = json.loads(json_content)
+        print(data_dict['jobDetails']['locations'])
+        location = data_dict['jobDetails']['locations'][0]['city']+', ' + \
+            data_dict['jobDetails']['locations'][0]['stateProvince'] + \
+            ', '+data_dict['jobDetails']['locations'][0]['countryName']
+    else:
+        location = None
+    for i in considerations:
+        if i == 'location':
+            con[i] = location
+        else:
+            con[i] = string_search(response, globals()[i])
+    logging.info(
+        f'{datetime.datetime.now()} Existing the Apple extract Module with considerations {con}')
+    return con
+
+
 def normalize_string(input_string):
     logging.info(
         f'{datetime.datetime.now()} Entering the normalize string Module with string {input_string}')
@@ -399,12 +427,11 @@ def is_place_in_country(place_string, country_string):
         f'{datetime.datetime.now()} Entering the country check Module')
     normalized_place = normalize_string(place_string)
     normalized_country = normalize_string(country_string)
-    if ',' in place_string:
+    if normalized_place is None:
+        return "Location not found"
+    elif normalized_place is not None:
         norm_country = normalize_string(place_string.split(',')[-1])
         pl_country = get_country_from_place_nominatim(norm_country)
-    else:
-        norm_country = None
-        pl_country = None
     place_country = get_country_from_place_nominatim(normalized_place)
     if "remote" in normalized_place:
         if normalized_country in normalized_place:
@@ -482,6 +509,9 @@ def compute(url_list, considerations):
             elif "icims" in url:
                 # print("icims", url)
                 con = icims_extract(url, considerations)
+            elif "apple" in url:
+                # print("apple", url)
+                con = apple_extract(response, considerations)
             else:
                 # print("other", url)
                 con = url_extract(response, considerations)
