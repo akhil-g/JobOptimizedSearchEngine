@@ -110,7 +110,9 @@ def extract_location(json_data):
     logging.info(
         f'{datetime.datetime.now()} Entered the location extract for other urls Module')
     jstring = json.dumps(json_data['jobLocation'])
-    if 'name' in jstring:
+    if 'addressLocality' in jstring:
+        val = 'addressLocality'
+    elif 'name' in jstring:
         val = 'name'
     elif 'addressLocality' in jstring:
         val = 'addressLocality'
@@ -122,17 +124,29 @@ def extract_location(json_data):
         if isinstance(json_data['jobLocation'], list):
             if isinstance(json_data['jobLocation'][0]['address'], list):
                 al = json_data['jobLocation'][0]['address'][0][val] or ""
-                ac = json_data['jobLocation'][0]['address'][0][val2] or ""
+                if isinstance(json_data['jobLocation'][0]['address'][0][val2], dict):
+                    ac = json_data['jobLocation'][0]['address'][0][val2]['name']
+                else:
+                    ac = json_data['jobLocation'][0]['address'][0][val2] or ""
             else:
                 al = json_data['jobLocation'][0]['address'][val] or ""
-                ac = json_data['jobLocation'][0]['address'][val2] or ""
+                if isinstance(json_data['jobLocation'][0]['address'][val2], dict):
+                    ac = json_data['jobLocation'][0]['address'][val2]['name']
+                else:
+                    ac = json_data['jobLocation'][0]['address'][val2] or ""
         elif isinstance(json_data['jobLocation'], dict):
             if isinstance(json_data['jobLocation']['address'], list):
                 al = json_data['jobLocation']['address'][0][val] or ""
-                ac = json_data['jobLocation']['address'][0][val2] or ""
+                if isinstance(json_data['jobLocation']['address'][0][val2], dict):
+                    ac = json_data['jobLocation']['address'][0][val2]['name']
+                else:
+                    ac = json_data['jobLocation']['address'][0][val2] or ""
             if isinstance(json_data['jobLocation']['address'], dict):
                 al = json_data['jobLocation']['address'][val] or ""
-                ac = json_data['jobLocation']['address'][val2] or ""
+                if isinstance(json_data['jobLocation']['address'][val2], dict):
+                    ac = json_data['jobLocation']['address'][val2]['name']
+                else:
+                    ac = json_data['jobLocation']['address'][val2] or ""
         logging.info(
             f'{datetime.datetime.now()} Existing the location extract for other urls Module')
         return al + ", "+ac
