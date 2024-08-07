@@ -493,6 +493,7 @@ def compute(url_list, considerations):
     logging.info(f'{datetime.datetime.now()} Entered the Compute Module')
     final_df = pd.DataFrame()
     for url in url_list:
+        url_processed = False
         logging.info(
             f'{datetime.datetime.now()} Entered the Url List loop for url {url}')
         response = requests.get(url, stream=True)
@@ -500,7 +501,7 @@ def compute(url_list, considerations):
             for data in response.iter_content(chunk_size=1024):
                 continue
         except ChunkedEncodingError as ex:
-            # print(f"Invalid chunk encoding {str(ex)}")
+            url_processed = True
             logging.info(
                 f'{datetime.datetime.now()} Invalid chunk encoding {str(ex)} for url {url}')
         redirect_url = response.url
@@ -508,7 +509,7 @@ def compute(url_list, considerations):
         if redirect_url != url:
             url = redirect_url_extract(url)
         response = requests.get(url)
-        if response.ok:
+        if response.ok and url_processed == False:
             ul = {}
             ul['URL'] = original_url
             if "oraclecloud" in url:
