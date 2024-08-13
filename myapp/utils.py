@@ -390,7 +390,7 @@ def apple_extract(response, considerations):
                 data_dict['jobDetails']['locations'][0]['stateProvince'] + \
                 ', '+data_dict['jobDetails']['locations'][0]['countryName']
         else:
-            location = None
+            location = "Posting Site"
     else:
         location = None
     for i in considerations:
