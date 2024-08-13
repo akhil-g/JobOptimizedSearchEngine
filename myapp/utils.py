@@ -382,10 +382,12 @@ def apple_extract(response, considerations):
     if match:
         json_content = match.group(1)
         data_dict = json.loads(json_content)
-        print(data_dict['jobDetails']['locations'])
-        location = data_dict['jobDetails']['locations'][0]['city']+', ' + \
-            data_dict['jobDetails']['locations'][0]['stateProvince'] + \
-            ', '+data_dict['jobDetails']['locations'][0]['countryName']
+        if 'jobDetails' in data_dict:
+            location = data_dict['jobDetails']['locations'][0]['city']+', ' + \
+                data_dict['jobDetails']['locations'][0]['stateProvince'] + \
+                ', '+data_dict['jobDetails']['locations'][0]['countryName']
+        else:
+            location = None
     else:
         location = None
     for i in considerations:
