@@ -8,6 +8,8 @@ import re
 import json
 import urllib
 from requests.exceptions import ChunkedEncodingError
+from requests.exceptions import ConnectionError, HTTPError, Timeout, RequestException
+from urllib3.exceptions import ProtocolError
 logging.basicConfig(filename="search.log", level=logging.INFO)
 pd.options.mode.chained_assignment = None  # default='warn'
 
@@ -498,20 +500,21 @@ def compute(url_list, considerations):
         url_processed = False
         logging.info(
             f'{datetime.datetime.now()} Entered the Url List loop for url {url}')
-        response = requests.get(url, stream=True)
         try:
+            response = requests.get(url, stream=True)
             for data in response.iter_content(chunk_size=1024):
+                response = response.json()
                 continue
-        except ChunkedEncodingError as ex:
+        except (ConnectionError, ProtocolError, HTTPError, Timeout, RequestException, ChunkedEncodingError) as ex:
             url_processed = True
             logging.info(
-                f'{datetime.datetime.now()} Invalid chunk encoding {str(ex)} for url {url}')
-        redirect_url = response.url
-        original_url = url
-        if redirect_url != url:
-            url = redirect_url_extract(url)
-        response = requests.get(url)
-        if response.ok and url_processed == False:
+                f'{datetime.datetime.now()} Unable to access for url {url} with {str(ex)}')
+        if url_processed == False:
+            redirect_url = response.url
+            original_url = url
+            if redirect_url != url:
+                url = redirect_url_extract(url)
+                response = requests.get(url)
             ul = {}
             ul['URL'] = original_url
             if "oraclecloud" in url:
