@@ -7,6 +7,7 @@ import logging
 import re
 import json
 import urllib
+import copy
 from requests.exceptions import ChunkedEncodingError
 from requests.exceptions import ConnectionError, HTTPError, Timeout, RequestException
 from urllib3.exceptions import ProtocolError
@@ -502,7 +503,8 @@ def compute(url_list, considerations):
             f'{datetime.datetime.now()} Entered the Url List loop for url {url}')
         try:
             response = requests.get(url, stream=True)
-            for data in response.iter_content(chunk_size=1024):
+            dresponse = copy.deepcopy(response)
+            for data in dresponse.iter_content(chunk_size=1024):
                 continue
         except (ConnectionError, ProtocolError, HTTPError, Timeout, RequestException, ChunkedEncodingError) as ex:
             url_processed = True
@@ -513,7 +515,7 @@ def compute(url_list, considerations):
             original_url = url
             if redirect_url != url:
                 url = redirect_url_extract(url)
-            response = requests.get(url)
+                response = requests.get(url)
             ul = {}
             ul['URL'] = original_url
             if "oraclecloud" in url:
