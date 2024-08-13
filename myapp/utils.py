@@ -503,7 +503,6 @@ def compute(url_list, considerations):
         try:
             response = requests.get(url, stream=True)
             for data in response.iter_content(chunk_size=1024):
-                response = response.json()
                 continue
         except (ConnectionError, ProtocolError, HTTPError, Timeout, RequestException, ChunkedEncodingError) as ex:
             url_processed = True
@@ -514,7 +513,7 @@ def compute(url_list, considerations):
             original_url = url
             if redirect_url != url:
                 url = redirect_url_extract(url)
-                response = requests.get(url)
+            response = requests.get(url)
             ul = {}
             ul['URL'] = original_url
             if "oraclecloud" in url:
