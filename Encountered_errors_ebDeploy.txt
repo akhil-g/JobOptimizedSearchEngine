@@ -1,0 +1,16 @@
+Errors encountered:
+
+  1. with Elastic beanstalk:
+      a. DisableIMDSv1
+      b. Setting RootVolumeType to: gp3 
+
+  2. deploy application error:
+      a. changed the gunicore command in web.service:
+        from "ExecStart=/bin/sh -c 'gunicorn --bind 127.0.0.1:8000 --workers=1 --threads=15 application'"
+        to "ExecStart=/bin/sh -c 'gunicorn --bind 127.0.0.1:8000 --workers=1 --threads=15 JobOptimizedSearchEnginer.wsgi:application'
+      b. Ran the following cli commands to make the application run:
+        i. pip3 install gunicore
+        ii. pip3 install -r /var/app/current/requirements.txt
+        iii. sudo systemctl daemon-reload
+        iv. sudo systemctl restart web.service
+    
