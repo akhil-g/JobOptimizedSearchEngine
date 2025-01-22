@@ -624,3 +624,62 @@ def process_data(data):
     except Exception as e:
         logging.error(f"{datetime.datetime.now()} Error in main: {e}")
         return "Error while processing will be fixed soon!!"
+
+
+if __name__ == '__main__':
+    data = {
+        "role": "Software engineer",
+        "location": "USA",
+        "keywords": "",
+        "exclusion": "",
+        "no_of_hits": 10,
+        "time_filter": "Past day",
+        "clearance": "True",
+        "sponsorship": "True",
+        "filtering": "True"
+    }
+    final_df = pd.DataFrame()
+    if data['location'] == "":
+        data['location'] = default['location']
+    if data['no_of_hits'] == "":
+        data['no_of_hits'] = default['no_of_hits']
+    if data['time_filter'] == "":
+        data['time_filter'] = default['time_filter']
+    if data['location'].lower() in us_location:
+        data['location'] = "united states"
+    considerations = [i for i in data if data[i]
+                      == "True" and i != "filtering"]
+    if data['location']:
+        considerations.append('location')
+    url = 'https://jobs.sparksgroupinc.com/jobs/237902'
+    response = requests.get(url, stream=True)
+    redirect_url = response.url
+    original_url = url
+    if redirect_url != url:
+        url = redirect_url_extract(url)
+        response = requests.get(url)
+    ul = {}
+    ul['URL'] = original_url
+    if "oraclecloud" in url:
+        # print("oracle", url)
+        con = oracle_extract(url, considerations)
+    elif "myworkday" in url:
+        # print("myworkday", url)
+        con = workday_extract(response, considerations)
+    elif "microsoft" in url:
+        # print("microsoft", url)
+        con = microsoft_extract(url, considerations)
+    elif "icims" in url:
+        # print("icims", url)
+        con = icims_extract(url, considerations)
+    elif "apple" in url:
+        # print("apple", url)
+        con = apple_extract(response, considerations)
+    else:
+        # print("other", url)
+        con = url_extract(response, considerations)
+    for i in considerations:
+        ul[i] = con[i]
+    df = pd.DataFrame([ul])
+    final_df = pd.concat([final_df, df], ignore_index=True)
+    print(final_df)
