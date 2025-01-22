@@ -2,10 +2,12 @@ branch-defaults:
   main:
     environment: jose-app
     group_suffix: null
+
 environment-defaults:
   env-joseapp:
     branch: null
     repository: null
+
 global:
   application_name: jose-app
   branch: null
@@ -20,26 +22,3 @@ global:
   repository: null
   sc: git
   workspace_type: Application
-
-option_settings:
-  aws:autoscaling:launchconfiguration:
-    EC2KeyName: null
-    InstanceType: t2.micro
-  aws:ec2:instances:
-    DisableIMDSv1: true
-    RootVolumeType: gp3
-  aws:elasticbeanstalk:command:
-    Timeout: 1000
-
-commands:
-  01_replace_web_service:
-    command: |
-      sed -i "s|ExecStart=/bin/sh -c 'gunicorn --bind 127.0.0.1:8000 --workers=1 --threads=15 application'|ExecStart=/bin/sh -c 'gunicorn --bind 127.0.0.1:8000 --workers=1 --threads=15 --timeout 6000 JobOptimizedSearchEnginer.wsgi:application'|" /etc/systemd/system/web.service
-  02_install_gunicorn:
-    command: "pip3 install gunicorn"
-  03_install_requirements:
-    command: "pip3 install -r /var/app/current/requirements.txt"
-  04_reload_daemon:
-    command: "sudo systemctl daemon-reload"
-  05_restart_web_service:
-    command: "sudo systemctl restart web.service"
