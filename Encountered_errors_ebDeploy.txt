@@ -3,6 +3,7 @@ Errors encountered:
   1. with Elastic beanstalk:
       a. DisableIMDSv1
       b. Setting RootVolumeType to: gp3 
+      c. command timeout to: 1000
 
   2. deploy application error:
       a. changed the gunicore command in web.service:
