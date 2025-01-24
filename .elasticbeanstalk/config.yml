@@ -1,6 +1,6 @@
 branch-defaults:
   main:
-    environment: null
+    environment: jose-app
     group_suffix: null
 environment-defaults:
   env-joseapp:
