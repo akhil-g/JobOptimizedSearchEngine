@@ -1,0 +1,38 @@
+option_settings:
+  "aws:elasticbeanstalk:container:python":
+    WSGIPath: "JobOptimizedSearchEngine.wsgi:application"
+
+  "aws:autoscaling:launchconfiguration":
+    EC2KeyName: null
+    InstanceType: t2.micro
+
+  "aws:elasticbeanstalk:command":
+    Timeout: 1000
+
+commands:
+  01_replace_web_service:
+    command: |
+      sed -i "s|ExecStart=/bin/sh -c 'gunicorn --bind 127.0.0.1:8000 --workers=1 --threads=15 application'|ExecStart=/bin/sh -c 'gunicorn --bind 127.0.0.1:8000 --workers=1 --threads=15 --timeout 6000 JobOptimizedSearchEngine.wsgi:application'|" /etc/systemd/system/web.service
+  02_install_gunicorn:
+    command: "pip3 install gunicorn"
+  03_install_requirements:
+    command: "pip3 install -r /var/app/current/requirements.txt"
+  04_reload_daemon:
+    command: "sudo systemctl daemon-reload"
+  05_restart_web_service:
+    command: "sudo systemctl restart web.service"
+
+files:
+  "/etc/ebextensions/disable_imds.sh":
+    mode: "000755"
+    owner: root
+    group: root
+    content: |
+      #!/bin/bash
+      echo "Disabling IMDSv1 and configuring RootVolumeType to gp3"
+      aws ec2 modify-instance-metadata-options --instance-id $(curl -s http://169.254.169.254/latest/meta-data/instance-id) --http-endpoint enabled --http-token required
+      aws ec2 modify-volume --volume-id $(aws ec2 describe-volumes --filters Name=attachment.instance-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id) --query "Volumes[0].VolumeId" --output text) --volume-type gp3
+
+container_commands:
+  01_run_disable_imds:
+    command: "/etc/ebextensions/disable_imds.sh"
