@@ -44,12 +44,16 @@ def initializations(data):
         f'{datetime.datetime.now()} Entered the Initialization module')
     if data['location'] == "":
         data['location'] = default['location']
+        data['tds'] = "com"
     if data['no_of_hits'] == "":
         data['no_of_hits'] = default['no_of_hits']
     if data['time_filter'] == "":
         data['time_filter'] = default['time_filter']
     if data['location'].lower() in us_location:
-        data['location'] = "united states"
+        data['location'] = "CountryUS"
+        data['tds'] = "com"
+    elif data['location'].lower() == "india":
+        data['tds'] = "co.in"
     considerations = [i for i in data if data[i]
                       == "True" and i != "filtering"]
     if data['location']:
@@ -589,11 +593,12 @@ def url_generator(data):
     else:
         excluded = data['exclusion']
     for i in data['search_sites']:
-        query = data['keywords']+" "+excluded+" '"+data['role']+"' "+i
+        query = data['keywords']+" "+excluded+" "+data['role']+" "+i
         logging.info(f'{datetime.datetime.now()} executing the query {query}')
-        for j in search(query, tld="co.in", num=10, stop=data['no_of_hits'], pause=2, tbs=time[data['time_filter']]):
+        # for j in search(query, tld="co.in", num=10, stop=data['no_of_hits'], pause=2, tbs=time[data['time_filter']]):
+        for j in search(query, tld=data['tds'], num=10, start=0, pause=2, stop=data['no_of_hits'], country=data['location'], tbs=time[data['time_filter']]):
             url_list.append(j)
-    url_list = language_adjustments(url_list)
+    # url_list = language_adjustments(url_list)
     logging.info(
         f'{datetime.datetime.now()} Leaving the url_generator module with urls {url_list}')
     return url_list
@@ -608,6 +613,7 @@ def process_data(data):
         logfile_empty()
         data, considerations = initializations(data)
         url_list = url_generator(data)
+        print(url_list)
         if not url_list:
             return "No search results were found and please change the parameters to generate output"
         else:
@@ -627,9 +633,10 @@ def process_data(data):
 
 
 if __name__ == '__main__':
-    data = {
+    '''data = {
         "role": "Software engineer",
         "location": "USA",
+        "search_sites": [],
         "keywords": "",
         "exclusion": "",
         "no_of_hits": 10,
@@ -637,20 +644,47 @@ if __name__ == '__main__':
         "clearance": "True",
         "sponsorship": "True",
         "filtering": "True"
+    }'''
+
+    data = {
+        "role": "SAP FICO Consultant",
+        "location": "India",
+        "search_sites": ["site:Jobs.*"],
+        "keywords": "",
+        "exclusion": "",
+        "no_of_hits": 15,
+        "time_filter": "Past day",
+        "clearance": "False",
+        "sponsorship": "False",
+        "filtering": "True"
     }
+
+    data, considerations = initializations(data)
+    print(f"Data: {data}")
+    print(f"Considerations: {considerations}")
+    url_list = url_generator(data)
+    print("\n".join(url_list))
+
     final_df = pd.DataFrame()
     if data['location'] == "":
         data['location'] = default['location']
+        data['tds'] = "com"
     if data['no_of_hits'] == "":
         data['no_of_hits'] = default['no_of_hits']
     if data['time_filter'] == "":
         data['time_filter'] = default['time_filter']
     if data['location'].lower() in us_location:
-        data['location'] = "united states"
+        data['location'] = "CountryUS"
+        data['tds'] = "com"
+    elif data['location'].lower() == "india":
+        data['tds'] = "co.in"
     considerations = [i for i in data if data[i]
                       == "True" and i != "filtering"]
     if data['location']:
         considerations.append('location')
+    if len(data['search_sites']) == 0:
+        data['search_sites'] = search_sites
+
     url = 'https://jobs.sparksgroupinc.com/jobs/237902'
     response = requests.get(url, stream=True)
     redirect_url = response.url
