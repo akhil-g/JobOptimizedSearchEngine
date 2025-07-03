@@ -40,7 +40,7 @@ class SearchForm(forms.Form):
     )
     time_filter = forms.ChoiceField(
         label='Time filter',
-        choices=[('Past hour', 'Past hour'), ('Past day', 'Past day'), ('Past week', 'Past week'),
+        choices=[('Past day', 'Past day'), ('Past week', 'Past week'),
                  ('Past month', 'Past month'), ('Past year', 'Past year')]
     )
     clearance = forms.ChoiceField(

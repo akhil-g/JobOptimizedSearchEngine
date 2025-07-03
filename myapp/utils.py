@@ -49,7 +49,10 @@ def initializations(data):
     if data['time_filter'] == "":
         data['time_filter'] = default['time_filter']
     if data['location'].lower() in us_location:
-        data['location'] = "united states"
+        data['location'] = "CountryUS"
+        data['tds'] = "com"
+    elif data['location'].lower() == "india":
+        data['tds'] = "co.in"
     considerations = [i for i in data if data[i]
                       == "True" and i != "filtering"]
     if data['location']:
@@ -591,7 +594,7 @@ def url_generator(data):
     for i in data['search_sites']:
         query = data['keywords']+" "+excluded+" '"+data['role']+"' "+i
         logging.info(f'{datetime.datetime.now()} executing the query {query}')
-        for j in search(query, tld="co.in", num=10, stop=data['no_of_hits'], pause=2, tbs=time[data['time_filter']]):
+        for j in search(query, tld=data['tds'], num=10, start=0, pause=2, stop=data['no_of_hits'], country=data['location'], tbs=time[data['time_filter']]):
             url_list.append(j)
     url_list = language_adjustments(url_list)
     logging.info(
